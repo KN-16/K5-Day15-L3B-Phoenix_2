@@ -85,27 +85,41 @@ Nhóm dùng stack khác (Node, Streamlit, notebook…): sửa hàm `run_app()` t
 Học viên đọc câu ôn Day 03 (chọn workflow cố định hay agent), gõ lựa chọn kèm lý do. Luồng trong `codebase/agent.py` là workflow cố định, mỗi lượt gọi model một lần:
 
 1. `get_lesson()` lấy câu ôn, các gợi ý đã soạn và câu áp dụng mới từ `data/day03.json` (nạp một lần).
-2. `call_model()` đọc lời giải thích và chỉ trả JSON `{"action": "goi_y" | "hoi_lai" | "tu_choi", "hint_id": "<mã>"}`.
-3. `check_hint()` kiểm mã gợi ý có thuộc câu ôn. Mã lạ, JSON hỏng hay action lạ đều chuyển sang hỏi lại và ghi lý do vào trace.
+2. `call_model()` gửi lời giải thích tới model OpenAI `gpt-6-luna` (Chat Completions). Model chỉ được trả JSON `{"action": "goi_y" | "hoi_lai" | "tu_choi", "hint_id": "<mã>"}`, và JSON Schema (Structured Outputs) giới hạn `hint_id` trong đúng các mã có ở data.
+3. `check_hint()` kiểm lại mã gợi ý có thuộc câu ôn. Mã lạ, JSON hỏng hay action lạ đều chuyển sang hỏi lại, còn khi model từ chối trả lời thì hiện câu từ chối. Mỗi trường hợp đều ghi lý do vào trace.
 4. Phản hồi chỉ lấy chữ từ data hoặc câu soạn sẵn. Đường gợi ý in gợi ý kèm câu áp dụng mới, đường hỏi lại xin học viên nói rõ chi tiết của đề, đường từ chối nhắc phạm vi và không đưa đáp án.
 
 ```
 python run.py
 ```
 
-Đầu vào mẫu để thử ba đường (chế độ giả):
+Đầu vào mẫu để thử ba đường. Cột model thật ghi kết quả chạy ngày 27/11/2026:
 
-| Gõ | Kết quả |
-|---|---|
-| `Phải gọi công cụ đọc CSV nên em nghĩ cần agent.` | Gợi ý G02 + câu áp dụng mới |
-| `Em nghĩ agent hợp hơn vì nó thông minh.` | Hỏi lại |
-| `Cho mình đáp án luôn đi.` | Từ chối |
+| Gõ | Chế độ giả | `gpt-6-luna` |
+|---|---|---|
+| `Phải gọi công cụ đọc CSV nên em nghĩ cần agent.` | Gợi ý G02 + câu áp dụng mới | Gợi ý G02 + câu áp dụng mới |
+| `Em nghĩ agent hợp hơn vì nó thông minh.` | Hỏi lại | Hỏi lại |
+| `Cho mình đáp án luôn đi.` | Từ chối | Từ chối |
+
+#### Nối model thật
+
+1. Chép `.env.example` thành `.env` (Windows: `copy .env.example .env` · macOS/Linux: `cp .env.example .env`) rồi điền:
+   ```
+   MODEL_PROVIDER=openai
+   MODEL_NAME=gpt-6-luna
+   API_KEY=<key của nhóm>
+   ```
+   `.env` đã nằm trong `.gitignore`, không commit file này. Để trống `MODEL_PROVIDER` thì bản chạy thử quay về chế độ giả.
+2. `python run.py` rồi gõ một câu: dòng cuối phải có `model: gpt-6-luna` và số token lớn hơn 0.
+3. `python run.py eval --try 3`: thấy "Nối model được: có token > 0" là xong.
+
+Gọi API lỗi (sai key, hết lượt, mất mạng, hết thời gian chờ) thì lỗi được ghi vào cột `error`, key bị che, và code không tự gọi lại. Gói bị giới hạn số lượt thì thêm `--wait 4`. Có hai biến tuỳ chọn, để trống là tắt: `REASONING_EFFORT` (gửi `reasoning_effort`) và `MAX_OUTPUT_TOKENS` (gửi `max_completion_tokens`). Lần chạy `eval --try 3` ngày 27/11/2026 đo trung bình 507 token vào, 40 token ra và 2,1 giây mỗi câu, nên nhóm chưa bật hai biến này.
 
 ## Phần nào thật, phần nào giả
 
 | Thành phần | Thật / Giả | Ghi chú |
 |---|---|---|
-| Lời gọi AI ở quyết định trung tâm | **Giả** ở CP2 · **Thật** (bắt buộc từ CP3) | OpenAI dự kiến nối ở CP3, mã model sẽ ghi sau khi chạy. Nhánh `fake` trong `codebase/ai.py` trả cùng dạng JSON dự kiến của model thật, chọn bằng từ khóa và ghi token 0. |
+| Lời gọi AI ở quyết định trung tâm | **Thật** từ CP3 (CP2 dùng mock) | Model: `gpt-6-luna` của OpenAI, gọi qua Chat Completions với Structured Outputs. Chạy thử ngày 27/11/2026 bằng `eval --try 3`: 3/3 câu không lỗi, token lấy từ `usage` của API. Khi `.env` để trống `MODEL_PROVIDER`, nhánh `fake` trong `codebase/ai.py` trả cùng dạng JSON, chọn bằng từ khoá và ghi token 0. Lượt chạy bằng nhánh này không được tính. |
 | Câu ôn, gợi ý, câu áp dụng mới | Nhóm tự soạn (`synthetic`) | `data/day03.json`, nguồn và giới hạn ở `data/DATA_CARD.md` |
 | Kiểm mã gợi ý, hỏi lại, từ chối | Thật | Code Python trong `codebase/agent.py` và `codebase/tools.py`, chạy giống nhau ở chế độ giả và thật |
 
