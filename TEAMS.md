@@ -7,7 +7,7 @@
 - Tên nhóm: Phoenix
 - Lớp: L3B
 - Track: A
-- Link repo: https://github.com/KN-16/K5-Day15-L3B-Phoenix
+- Link repo: https://github.com/KN-16/K5-Day15-L3B-Phoenix_2
 
 | STT | Họ và tên | Mã học viên | Vai trò | Phần việc chính |
 |---|---|---|---|---|
