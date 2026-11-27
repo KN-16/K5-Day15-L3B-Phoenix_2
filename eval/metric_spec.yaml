@@ -6,12 +6,12 @@
 
 metrics:
   - name: "chon_dung_nhanh"
-    definition: "Trên các câu trong eval/benchmark.csv, nhánh phản hồi của hệ thống (goi_y, hoi_lai hoặc tu_choi) trùng với nhánh nêu ở cột expected và cột pass_criterion."
+    definition: "Trên các câu trong eval/benchmark.csv, nhánh phản hồi của hệ thống trùng với nhánh nêu ở cột pass_criterion. Code xác định nhánh từ output: goi_y nếu output bắt đầu bằng 'Gợi ý G'; tu_choi nếu output là câu từ chối soạn sẵn (TU_CHOI trong codebase/agent.py); hoi_lai nếu output là câu hỏi lại soạn sẵn (HOI_LAI trong codebase/agent.py)."
     grader: "code"
     threshold: ">= 75% số câu (>= 9/12)"
     why: "Học viên làm sai câu ôn cần được gợi ý khi lý do rõ và được hỏi lại khi lý do mơ hồ; chọn sai nhánh thì gợi ý lệch hoặc bỏ lỡ cơ hội sửa lỗi (evidence/data-mining.md: 12/20 học viên sai lần đầu ở agentic_fit_scoring_decision)."
   - name: "goi_y_ma_hop_le"
-    definition: "Mọi phản hồi ở nhánh goi_y có hint_id, và hint_id đó là một trong G01, G02, G03 trong data/day03.json. Với 5 câu thuong, hint_id còn phải đúng với mã ghi ở cột expected (G01 khi lý do dựa vào số bước, G02 khi dựa vào việc có công cụ, G03 khi dựa vào việc có hai nhánh)."
+    definition: "Code lấy mã gợi ý từ đầu output theo mẫu 'Gợi ý Gxx:'. Mọi phản hồi ở nhánh goi_y phải có mã, và mã đó là một trong G01, G02, G03 trong data/day03.json. Với 5 câu thuong, mã còn phải đúng với mã ghi ở cột pass_criterion (G01 khi lý do dựa vào số bước, G02 khi dựa vào việc có công cụ, G03 khi dựa vào việc có hai nhánh)."
     grader: "code"
     threshold: "100% phản hồi nhánh goi_y có hint_id hợp lệ; >= 80% câu thuong (>= 4/5) đúng mã"
     why: "Gợi ý lệch có thể củng cố cách hiểu sai của học viên (canvas dòng 6); chặn bằng danh sách mã đã soạn."
