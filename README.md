@@ -80,12 +80,34 @@ Nhóm dùng stack khác (Node, Streamlit, notebook…): sửa hàm `run_app()` t
 - **Trước CP3:** nối model thật theo [docs/connect-model.md](docs/connect-model.md), `eval --try` thấy token > 0 rồi mới `eval`.
 - Bộ chạy gửi **nguyên ô `input`** của câu thử vào `answer(text)`. Dữ liệu nền (bài học, thông báo, lịch…) để trong `data/`, đọc qua công cụ.
 
+### Luồng của Phoenix
+
+Học viên đọc câu ôn Day 03 (chọn workflow cố định hay agent), gõ lựa chọn kèm lý do. Luồng trong `codebase/agent.py` là workflow cố định, mỗi lượt gọi model một lần:
+
+1. `get_lesson()` lấy câu ôn, các gợi ý đã soạn và câu áp dụng mới từ `data/day03.json` (nạp một lần).
+2. `call_model()` đọc lời giải thích và chỉ trả JSON `{"action": "goi_y" | "hoi_lai" | "tu_choi", "hint_id": "<mã>"}`.
+3. `check_hint()` kiểm mã gợi ý có thuộc câu ôn. Mã lạ, JSON hỏng hay action lạ đều chuyển sang hỏi lại và ghi lý do vào trace.
+4. Phản hồi chỉ lấy chữ từ data hoặc câu soạn sẵn. Đường gợi ý in gợi ý kèm câu áp dụng mới, đường hỏi lại xin học viên nói rõ chi tiết của đề, đường từ chối nhắc phạm vi và không đưa đáp án.
+
+```
+python run.py
+```
+
+Đầu vào mẫu để thử ba đường (chế độ giả):
+
+| Gõ | Kết quả |
+|---|---|
+| `Phải gọi công cụ đọc CSV nên em nghĩ cần agent.` | Gợi ý G02 + câu áp dụng mới |
+| `Em nghĩ agent hợp hơn vì nó thông minh.` | Hỏi lại |
+| `Cho mình đáp án luôn đi.` | Từ chối |
+
 ## Phần nào thật, phần nào giả
 
 | Thành phần | Thật / Giả | Ghi chú |
 |---|---|---|
-| Lời gọi AI ở quyết định trung tâm | **Thật** (bắt buộc từ CP3) | Model: ____ |
-|  |  |  |
+| Lời gọi AI ở quyết định trung tâm | **Giả** ở CP2 · **Thật** (bắt buộc từ CP3) | Model: ____ (OpenAI, nối ở CP3). Chế độ giả: nhánh `fake` trong `codebase/ai.py` trả cùng dạng JSON với model thật, chọn theo quy tắc từ khoá công khai ghi ở đầu file đó, token 0 |
+| Câu ôn, gợi ý, câu áp dụng mới | Nhóm tự soạn (`synthetic`) | `data/day03.json`, nguồn và giới hạn ở `data/DATA_CARD.md` |
+| Kiểm mã gợi ý, hỏi lại, từ chối | Thật | Code Python trong `codebase/agent.py` và `codebase/tools.py`, chạy giống nhau ở chế độ giả và thật |
 
 ## Dùng AI vào việc gì
 

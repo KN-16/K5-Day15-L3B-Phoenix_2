@@ -29,12 +29,14 @@ def _where(e):
 def main() -> int:
     try:
         import tracing
-        from agent import answer
-    except Exception as e:  # lỗi cú pháp, thiếu thư viện… trong codebase/
+        from agent import answer, intro
+        opening = intro()   # nạp data/day03.json ngay lúc mở: thiếu / hỏng file thì báo ở đây
+    except Exception as e:  # lỗi cú pháp, thiếu thư viện, thiếu data… trong codebase/
         print("Không nạp được codebase/ — lỗi ở %s: %s: %s" % (_where(e), type(e).__name__, e))
         print("Sửa lỗi rồi chạy lại. Cách nối model: docs/connect-model.md")
         return 1
-    print("Bản chạy thử — gõ đầu vào rồi Enter. Thoát: Ctrl+C (hoặc Enter 2 lần với dòng trống).")
+    print("Bản chạy thử — thoát: Ctrl+C (hoặc Enter 2 lần với dòng trống).")
+    print(opening)
     blank = 0
     while True:
         try:
