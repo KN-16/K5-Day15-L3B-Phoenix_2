@@ -2,29 +2,26 @@
 # Ôn lại: ngày 5, ngày 9 · lab ngày 5, lab ngày 9.
 # CHỐT TRƯỚC 19:30 Thứ Sáu 27/11 (CP2), KHÔNG SỬA SAU. Sửa sau CP2 → khối R4 0 điểm (03-rubric).
 #
-# ≥3 metric. Mỗi metric:
-#   name        tên ngắn, không dấu (vd trich_dung_nguon)
-#   definition  định nghĩa KIỂM CHỨNG ĐƯỢC — người ngoài nhóm đọc output là chấm ra cùng kết quả
-#               ✗ "trả lời hay"   ✓ "mọi khẳng định có mã đoạn nguồn, và mã đó có trong dữ liệu"
-#   grader      code | llm | nguoi   (llm: ghi rõ đã kiểm tay bao nhiêu câu, khớp bao nhiêu)
-#   threshold   ngưỡng bằng số, vd "≥ 90% câu thuong" hoặc "100% câu tu_choi"
-#   why         vì sao người dùng quan tâm — trỏ về pain ở evidence/summary.md (từ pain, không từ AI)
-# Kiểm: python run.py check  (báo nếu chưa đủ 3 metric hoặc còn mẫu <…>)
-# Người thứ hai chấm thử 5 output theo file này → ghi kết quả vào eval/README.md mục 3.
+# NHÁP của Huy: ngưỡng chốt sau khi chấm thử và thống nhất với nhóm.
 
 metrics:
-  - name: "<metric_1>"
-    definition: "<định nghĩa kiểm chứng được>"
-    grader: "<code | llm | nguoi>"
-    threshold: "<ngưỡng bằng số>"
-    why: "<vì sao người dùng quan tâm>"
-  - name: "<metric_2>"
-    definition: "<…>"
-    grader: "<…>"
-    threshold: "<…>"
-    why: "<…>"
-  - name: "<metric_3>"
-    definition: "<…>"
-    grader: "<…>"
-    threshold: "<…>"
-    why: "<…>"
+  - name: "chon_dung_nhanh"
+    definition: "Trên các câu trong eval/benchmark.csv, nhánh phản hồi của hệ thống (goi_y, hoi_lai hoặc tu_choi) trùng với nhánh nêu ở cột expected và cột pass_criterion."
+    grader: "code"
+    threshold: ">= 75% số câu (>= 9/12)"
+    why: "Học viên làm sai câu ôn cần được gợi ý khi lý do rõ và được hỏi lại khi lý do mơ hồ; chọn sai nhánh thì gợi ý lệch hoặc bỏ lỡ cơ hội sửa lỗi (evidence/data-mining.md: 12/20 học viên sai lần đầu ở agentic_fit_scoring_decision)."
+  - name: "goi_y_ma_hop_le"
+    definition: "Mọi phản hồi ở nhánh goi_y có hint_id, và hint_id đó là một trong G01, G02, G03 trong data/day03.json. Với 5 câu thuong, hint_id còn phải đúng với mã ghi ở cột expected (G01 khi lý do dựa vào số bước, G02 khi dựa vào việc có công cụ, G03 khi dựa vào việc có hai nhánh)."
+    grader: "code"
+    threshold: "100% phản hồi nhánh goi_y có hint_id hợp lệ; >= 80% câu thuong (>= 4/5) đúng mã"
+    why: "Gợi ý lệch có thể củng cố cách hiểu sai của học viên (canvas dòng 6); chặn bằng danh sách mã đã soạn."
+  - name: "giu_pham_vi"
+    definition: "Với câu type tu_choi và câu kho ngoài danh sách gợi ý (B10), hệ thống không in danh sách gợi ý, không nêu đáp án đúng, không làm hộ bài và không tự soạn nội dung dạy mới."
+    grader: "nguoi"
+    threshold: "100% (3/3 câu: B10, B11, B12)"
+    why: "Hệ thống chỉ hỗ trợ sau câu ôn Day 03; làm hộ bài hoặc bịa gợi ý làm mất ý nghĩa của việc học từ lỗi."
+  - name: "giai_dung_cau_ap_dung_moi"
+    definition: "Trong số người thử ngoài nhóm từng chọn sai câu ôn và nhận một gợi ý, tỉ lệ người trả lời đúng câu áp dụng mới (follow_up_question trong data/day03.json) kèm lý do đúng. Người chấm đối chiếu với đáp án đã soạn của câu áp dụng."
+    grader: "nguoi"
+    threshold: ">= 50% số người thử (ghi rõ x/n, n nhỏ không ghi %)"
+    why: "Chỉ số học của hướng A4: không chỉ trả lời đúng mà học viên áp dụng được vào tình huống mới."
