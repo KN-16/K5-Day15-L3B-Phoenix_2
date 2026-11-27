@@ -1,0 +1,21 @@
+{
+  "question": "Mỗi sáng, chương trình dùng công cụ đọc một tệp CSV và kiểm tra các cột bắt buộc. Nếu thiếu cột, chương trình ghi lỗi. Nếu đủ cột, chương trình xuất báo cáo. Bạn chọn workflow cố định hay agent cho việc này? Hãy nêu lý do.",
+  "hints": [
+    {
+      "id": "G01",
+      "when": "Học viên dựa vào số lượng bước để kết luận phải dùng agent.",
+      "text": "Hãy xem cách xác định bước tiếp theo. Sau khi đọc tệp, chương trình đã được chỉ định làm gì hay phải tự chọn hành động tiếp theo?"
+    },
+    {
+      "id": "G02",
+      "when": "Học viên dựa vào việc có công cụ đọc CSV để kết luận phải dùng agent.",
+      "text": "Hãy xét ai quyết định khi nào gọi công cụ đọc CSV. Thời điểm đó đã được quy định trước hay do chương trình tự chọn trong lúc chạy?"
+    },
+    {
+      "id": "G03",
+      "when": "Học viên dựa vào việc có hai nhánh xử lý để kết luận phải dùng agent.",
+      "text": "Khi thiếu cột và khi đủ cột, đề bài đã quy định cách xử lý cho từng trường hợp đến đâu?"
+    }
+  ],
+  "follow_up_question": "Khi nhận hồ sơ đăng ký, hệ thống đối chiếu giấy tờ với danh sách có sẵn. Hồ sơ đủ được chuyển tới bộ phận duyệt. Hồ sơ thiếu được trả về để bổ sung. Bạn chọn workflow cố định hay agent? Giải thích cách hệ thống xác định bước tiếp theo."
+}
