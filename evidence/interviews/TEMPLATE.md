@@ -6,6 +6,16 @@
 
 **Tin nhắn hẹn mẫu:** *"Chào bạn, nhóm mình đang tìm hiểu cách mọi người [việc] trong khoá. Bạn cho mình hỏi 10–15 phút về lần gần nhất bạn [việc] được không? Không giới thiệu sản phẩm gì cả."*
 
+## Gợi ý hỏi cho Day 03
+
+Chọn học viên L3 ngoài nhóm đã làm bài ôn Day 03 trong tháng qua. Đi theo câu chuyện họ kể. Chép các câu thực sự đã hỏi vào mục tiếp theo.
+
+1. Lần gần nhất bạn làm câu ôn về chọn workflow hay agent là khi nào? Bạn nhớ tình huống trong đề như thế nào?
+2. Bạn chọn phương án nào? Chi tiết nào trong tình huống khiến bạn chọn như vậy?
+3. Sau khi biết kết quả, bạn đã làm gì tiếp? Nếu có xem lại, bạn đã tìm ở đâu và xem phần nào?
+4. Bạn nhớ lần đó mất khoảng bao lâu để hiểu lại câu hỏi? Trong tháng qua bạn gặp tình huống tương tự bao nhiêu lần?
+5. Bạn nhớ lần nào sau đó phải chọn workflow hay agent trong một tình huống khác không? Lúc đó bạn dựa vào chi tiết nào để chọn?
+
 ## Câu đã hỏi (giữ nguyên câu)
 
 1.

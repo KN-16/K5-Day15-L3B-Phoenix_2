@@ -45,6 +45,16 @@ Khi rà lại phép đếm CP1, đã đọc 40 dòng đầu và đối chiếu `
 
 Ghi dạng "x/N (y%)". "Nhiều bạn…" không phải số.
 
+**Số so sánh cho hướng A1 trong `spec.md` §2.** Video `Day01/d01-r1-v02.txt` có 115 lượt hỏi từ 34 học viên phân biệt. Số này đo lượt hỏi dưới video. Thời gian học viên mất để tìm đoạn cần xem vẫn chưa đo.
+
+```powershell
+$chatPath = '../K5-L3-Day15-AI-Product-Hackathon/data/preclass/chat.csv'
+$questions = @(Import-Csv -LiteralPath $chatPath -Encoding UTF8 | Where-Object {
+    $_.channel -eq 'video_question' -and $_.transcript -eq 'Day01/d01-r1-v02.txt'
+})
+[pscustomobject]@{ LuotHoi = $questions.Count; HocVien = @($questions | Group-Object hv).Count }
+```
+
 ## 4. ≥5 ví dụ cụ thể (mã dòng / mã đã ẩn danh, không đoán ai là ai)
 
 Năm dòng đầu khi sắp xếp theo mã trong tập sai. Mỗi dòng đều có `lan_thu = 1` và `was_correct = False`.
