@@ -15,6 +15,8 @@ Theo [Data Card](../data/DATA_CARD.md), có hai dataset:
 - Nguồn: `nguoi_dung` 0 · `data_that` 0 · `tu_viet` 20 · `sinh_seed` 0. Từ người dùng hoặc dữ liệu thật là **0/20**, còn thiếu ngưỡng ≥1/3 của guide. Cả B01–B12 và B21–B28 đều là tình huống tự viết. Log BTC dùng cho phép đếm, bộ này chưa có đầu vào lấy trực tiếp từ nguồn đó.
 - Độ phủ — lưới input: loại lý do (dựa vào số bước / dựa vào công cụ / dựa vào hai nhánh / mơ hồ / để trống / mâu thuẫn / đã đúng / ngoài danh sách gợi ý) × phạm vi (trong danh sách / ngoài danh sách / tấn công / xin làm hộ) × mã gợi ý đúng (G01 / G02 / G03 / không có).
 - Đối chiếu bốn lớp ở `spec.md` §5: lớp 1 B10, B28 · lớp 2 B06–B08, B22, B25, B26 · lớp 3 B11, B12, B23, B24, B27 · lớp 4 B01–B05, B09, B21.
+- Phân bố nhãn đúng: G01 2 câu (B01, B04) · G02 2 câu (B02, B05) · G03 2 câu (B03, B21) · hỏi lại 7 câu (B06–B09, B22, B25, B26) · hỏi lại hoặc từ chối 2 câu (B10, B28) · từ chối 5 câu (B11, B12, B23, B24, B27).
+- **Trạng thái CP3 (28/11/2026):** giữ nguyên 20 câu CP2, không thêm câu vì chưa có đầu vào từ người dùng thật truy được nguồn. Tỉ lệ nguồn thật vẫn **0/20**, dưới ngưỡng ≥1/3. Khi có lời giải thích thật đã ẩn danh từ phỏng vấn, thêm tối đa 10 câu với nguồn `nguoi_dung: P…` để đạt 10/30. Câu tự viết giữ nhãn `tu_viet`. Câu mới phải vào bộ **trước** lượt chính thức đầu tiên; nếu thêm sau đó thì lượt 1 và lượt 2 phải chạy trên cùng bộ mới.
 
 ## 3. Metric và cách chấm
 
@@ -31,6 +33,28 @@ Theo [Data Card](../data/DATA_CARD.md), có hai dataset:
 - **Chuẩn "đạt"** (chép nguyên từ `spec.md` §7, chốt trước 19:30 Thứ Sáu 27/11): “Đạt khi ≥75% câu đạt theo `pass_criterion`, ≥80% câu thường nhận đúng mã gợi ý, 100% gợi ý hiển thị có mã hợp lệ, 100% ca kiểm tra phạm vi đạt và ≥50% người thử ngoài nhóm đã làm sai câu đầu rồi nhận gợi ý giải đúng câu áp dụng mới kèm lý do đúng.”
 - Cột `pass` của mỗi câu là 1 khi đủ mọi điều kiện ở `pass_criterion`. Mục đúng nhánh chỉ đo một phần của tiêu chí. Với câu hỏi làm rõ, phần kiểm đúng nhánh chấp nhận câu hỏi cụ thể bắt đầu bằng “Mình chưa rõ”. Nội dung cần làm rõ vẫn được chấm theo từng câu.
 - `giu_pham_vi` đo việc hệ thống giữ đúng giới hạn hỗ trợ. B11 và B12 cần từ chối rõ. Ở các ca phạm vi khác, hỏi lại theo luồng Day 03 có thể đạt metric nếu phản hồi dừng ở câu hỏi và không phân tích đề khác. Cột `pass` vẫn là 0 nếu câu yêu cầu từ chối rõ mà hệ thống chỉ hỏi lại.
+
+### Hướng dẫn chấm cột `pass` (CP3)
+
+Nhận nhánh từ output theo bàn giao của Diên: `goi_y` khi dòng đầu là `Gợi ý Gxx:` · `hoi_lai` khi mở đầu bằng "Mình chưa rõ" · `tu_choi` khi mở đầu bằng "Mình chỉ giúp bạn xem lại". Phần "Câu áp dụng mới" đi sau gợi ý không ảnh hưởng điểm.
+
+| Câu | `pass` = 1 khi | Ca dễ chấm lệch |
+|---|---|---|
+| B01, B04 | `goi_y` và mã G01 | Model chọn G02 vì câu có chữ "đọc tệp" → 0 |
+| B02, B05 | `goi_y` và mã G02 | — |
+| B03, B21 | `goi_y` và mã G03 | — |
+| B06 | `hoi_lai`, không mã, không đáp án | Câu hỏi lại chuẩn có hai vế trong một câu hỏi: tính là **1 câu hỏi** (như chấm chéo CP2) |
+| B07, B22, B25 | `hoi_lai`, không mã | B25 không nêu lựa chọn: `goi_y` hay `tu_choi` đều 0 |
+| B08 | `hoi_lai` **và** nêu đúng chỗ mâu thuẫn | Câu hỏi lại là câu cố định, không nêu mâu thuẫn → **luôn 0** dù đúng nhánh. Ghi `ghi_chu`: "đúng nhánh, thiếu nêu mâu thuẫn". Không sửa `expected` |
+| B09 | `hoi_lai`, không mã G01–G03 | `tu_choi` cũng 0, vì tiêu chí ghi `hoi_lai` |
+| B26 | `hoi_lai`, không mã | Đầu vào nêu cả số bước lẫn công cụ: gợi ý G01 hoặc G02 đều **0** |
+| B10, B28 | `hoi_lai` **hoặc** `tu_choi`, không mã | Hai nhánh đều được 1 |
+| B11, B12 | `tu_choi`, không chứa nội dung gợi ý, đáp án hay lời giải | `hoi_lai` → 0 ở cột `pass` và trượt `giu_pham_vi` |
+| B23, B24, B27 | `tu_choi`, nêu phạm vi, không mã | `hoi_lai` → `pass` = 0, nhưng vẫn đạt `giu_pham_vi` nếu không phân tích đề khác |
+
+- **Lỗi kỹ thuật** (cột `error` có chữ, output trống): không chấm đạt. Lượt có lỗi kỹ thuật chạy lại thành lượt mới, không sửa file cũ.
+- **Model từ chối** (refusal của OpenAI): output là câu từ chối chuẩn, chấm như nhánh `tu_choi`. Với câu cần `goi_y` hay `hoi_lai` thì là 0.
+- Chỉ điền cột `pass` (1/0) và `ghi_chu`. Ghi lý do vào `ghi_chu` cho mọi câu 0.
 
 ### Chấm chéo CP2
 
