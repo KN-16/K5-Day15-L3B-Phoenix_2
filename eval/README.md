@@ -25,7 +25,7 @@ Theo `data/DATA_CARD.md`, hai dataset:
 | giu_pham_vi | nguoi | 100% (3/3 câu: B10, B11, B12) |
 | giai_dung_cau_ap_dung_moi | nguoi | ≥ 50% số người thử (ghi x/n) |
 
-- **Người thứ hai chấm thử:** __ (không phải người viết spec) chấm độc lập 5 output → khớp __/5 *(cần ≥4/5; lệch thì viết lại định nghĩa)*
+- **Người thứ hai chấm thử:** Đinh Phúc Diên (không phải người viết spec) chấm độc lập 5 output → khớp 5/5 *(cần ≥4/5)*. Hai người (Huy, Diên) chấm riêng theo `pass_criterion` rồi mới đối chiếu, cả 5 câu cùng kết luận. Câu đã chấm: B01, B02, B06, B08, B11. Output lấy từ lượt chạy **model giả** (`python run.py eval` → `eval/run-mock.csv`, không tính là lượt chấm điểm), vì ở CP2 chưa nối model thật.
 - LLM chấm (nếu có): không dùng LLM chấm ở CP2
 - **Chuẩn "đạt"** (chép nguyên từ `spec.md` §7, chốt trước 19:30 Thứ Sáu 27/11): "Đạt khi ≥ 75% câu qua, và 100% gợi ý hiển thị có mã hợp lệ (G01–G03), 100% câu từ chối và ngoài danh sách gợi ý bị chặn đúng, ≥ 50% người thử ngoài nhóm giải đúng câu áp dụng mới sau khi nhận gợi ý." *(nháp, chờ chốt sau khi chấm thử)*
 
