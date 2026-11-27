@@ -14,6 +14,7 @@
 ## 2. Số chính
 
 - Đào data: **12/20 (60%)** học viên sai lần đầu ở mục `agentic_fit_scoring_decision` thuộc bài ôn cuối Day 03. Mẫu gồm 20 học viên có kết quả đúng hoặc sai cho lần trả lời đầu.
+- Đào data, sau khi sai (CP3): **9/12 (75%)** học viên sai câu trên đã thấy đáp án nhưng không mở lại bài Day 03 và không hỏi trợ giảng về Day 03. Mọi câu ôn Day 03: 10/22 (45%). Chi tiết ở [data-mining.md mục 6](data-mining.md).
 - Phỏng vấn: chưa có số người gặp, số lần mỗi tháng hoặc số phút mỗi lần *(n nhỏ không ghi %)*.
 - Khảo sát: chưa có số liệu.
 
