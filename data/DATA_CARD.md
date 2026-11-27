@@ -8,9 +8,9 @@
 
 | | |
 |---|---|
-| Dùng để làm gì | Nguồn cho luồng mock chọn gợi ý và đưa câu áp dụng mới. Tệp [day03.json](day03.json) có `question`, `hints` (`id`, `when`, `text`) và `follow_up_question`. |
+| Dùng để làm gì | Nguồn cho `get_lesson()` và `check_hint()` trong luồng mock chọn gợi ý và đưa câu áp dụng mới. Tệp [day03.json](day03.json) có `question`, `hints` (`id`, `when`, `text`) và `follow_up_question`. |
 | Từ đâu | Tình huống và gợi ý do Codex soạn cho bản nháp, dựa trên phần mô tả workflow cố định và agent trong [guide BTC §2.2](https://github.com/VinUni-AI20k/K5-L3-Day15-AI-Product-Hackathon/blob/b568b951dfc0342e84c357bd09405d8e7040ebb6/02-guide.md#b2-2). |
-| Xử lý những bước gì | Soạn hai tình huống, mô tả ba lỗi suy luận dự kiến và gán mã `G01`–`G03`. Tệp chỉ chứa dữ liệu soạn mới. Đã kiểm cấu trúc của cả 5 mục, phần nội dung chờ Khôi duyệt. |
+| Xử lý những bước gì | Soạn hai tình huống, mô tả ba lỗi suy luận dự kiến và gán mã `G01`–`G03`. Tệp chỉ chứa dữ liệu soạn mới. Đã kiểm cấu trúc cả 5 mục và chạy thử CLI ở chế độ mock với file này. |
 | Số dòng / số đoạn | 1 câu ôn, 3 gợi ý kèm điều kiện chọn, 1 câu áp dụng. |
 | Phiên bản / ngày lấy | Bản nháp CP2 `v0.1` ngày 27/11/2026. |
 | Nhãn | `synthetic` · soạn theo từng mục, seed không áp dụng. |
