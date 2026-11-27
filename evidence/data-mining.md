@@ -70,3 +70,34 @@ Năm dòng đầu khi sắp xếp theo mã trong tập sai. Mỗi dòng đều c
 Data cho biết người ta **làm gì**, không cho biết **vì sao**. Log lưu kết quả nhưng thiếu nội dung câu hỏi, đáp án được chọn và lời giải thích. Tỷ lệ 60% chỉ mô tả 20 học viên trong mẫu lọc.
 
 → Hồ sơ CP2 dùng phép đếm log này. Cần thêm nguồn độc lập để kiểm lý do chọn đáp án và thời gian xem lại. [Tổng hợp và tiến độ](summary.md)
+
+## 6. Phép đếm bổ sung CP3 — học viên làm gì sau khi sai
+
+Huy đếm ngày 28/11/2026, có Claude hỗ trợ viết script. Câu hỏi: sau khi trả lời sai và đã thấy đáp án, học viên có quay lại bài hay hỏi trợ giảng không?
+
+**Cách đếm — viết trước khi chạy**
+
+- Data: `answers.csv`, `events.csv`, `chat.csv` của gói pre-class BTC (log kết thúc 25/11/2026 09:58 UTC).
+- Mẫu chính: cùng 20 học viên ở mục 1 (`agentic_fit_scoring_decision`, `pre_post_post`, `lan_thu = 1`). Mốc là `answers.created_at`; chỉ giữ học viên có đủ 24 giờ sau mốc (cả 20 đều đủ).
+- "Mở lại bài": `events.csv` có `type` là `lecture_opened` hoặc `video_opened`, cùng `lesson_id`, sau mốc.
+- "Hỏi trợ giảng về Day 03": `chat.csv` có `transcript` bắt đầu `Day03`, `asked_at` sau mốc.
+- "Có xem lại": mở lại bài hoặc hỏi trợ giảng về Day 03, bất kỳ lúc nào sau mốc. Mẫu số: số học viên của từng nhóm sai / đúng.
+- Phép đếm phụ (kiểm độ vững): lượt sai đầu tiên của mỗi học viên ở **mọi câu** trong bài ôn cuối Day 03.
+- Script: [dem_sau_khi_sai.py](dem_sau_khi_sai.py). Chạy từ gốc repo, repo đề BTC đặt cùng cấp: `python evidence/dem_sau_khi_sai.py ../K5-L3-Day15-AI-Product-Hackathon/data/preclass`
+
+**Kết quả**
+
+| Đếm gì | Nhóm sai | Nhóm đúng |
+|---|---|---|
+| Đã thấy đáp án ngay sau khi trả lời (`co_feedback = True`) | 12/12 | 8/8 |
+| Mở lại bài hoặc video Day 03 trong 24 giờ | 2/12 (17%) | 3/8 (38%) |
+| Hỏi trợ giảng AI về Day 03 sau mốc | 3/12 (25%) | 3/8 (38%) |
+| **Không xem lại** (không mở lại bài, không hỏi về Day 03) | **9/12 (75%)** | 2/8 (25%) |
+
+Phép đếm phụ, mọi câu ôn Day 03: **10/22 (45%)** học viên sai không xem lại; nhóm đúng có 13/23 (57%) xem lại.
+
+Ví dụ nhóm sai không xem lại (mã lượt, `lan_thu = 1`, `was_correct = False`, `co_feedback = True`): `A00653`, `A00945`, `A00950`, `A01935`, `A02946`.
+
+**Đọc kết quả:** ở câu workflow/agent, 9/12 học viên sai đã thấy đáp án rồi không quay lại bài hay hỏi trợ giảng về Day 03, dù phần lớn vẫn hoạt động nhiều trên trang trong 24 giờ sau. Mở rộng ra mọi câu Day 03, tỉ lệ là gần một nửa (10/22), và nhóm sai với nhóm đúng xem lại với tỉ lệ gần nhau (12/22 so với 13/23), nên **không kết luận** được người sai xem lại ít hơn người đúng nói chung.
+
+**Giới hạn:** n nhỏ; chỉ thấy hành vi, không thấy lý do (có thể đã hiểu nhờ đáp án, vội, hoặc không biết xem lại chỗ nào); "mở lại bài" không phân biệt xem lại có chủ đích hay học tiếp; câu hỏi `Day03` không chắc về đúng câu này.
