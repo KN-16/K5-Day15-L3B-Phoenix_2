@@ -69,4 +69,4 @@ Năm dòng đầu khi sắp xếp theo mã trong tập sai. Mỗi dòng đều c
 
 Data cho biết người ta **làm gì**, không cho biết **vì sao**. Log lưu kết quả nhưng thiếu nội dung câu hỏi, đáp án được chọn và lời giải thích. Tỷ lệ 60% chỉ mô tả 20 học viên trong mẫu lọc.
 
-→ Dự kiến hỏi ít nhất ba học viên ngoài nhóm đã làm bài ôn Day 03 về lựa chọn của họ, chi tiết họ xem lại sau khi biết kết quả và việc họ đã làm tiếp. Chưa có ghi chép cuộc phỏng vấn để đối chiếu.
+→ Hồ sơ CP2 dùng phép đếm log này. Cần thêm nguồn độc lập để kiểm lý do chọn đáp án và thời gian xem lại. [Tổng hợp và tiến độ](summary.md)

@@ -8,11 +8,11 @@ README của nhóm có mục "Dùng AI vào việc gì" (2–3 dòng, bắt bu�
 |---|---|---|---|---|
 | Code bản chạy thử | | | | |
 | Prompt / thiết kế lời gọi mô hình | | | | |
-| Đào data (viết script đếm, gợi ý nhãn) | | | Kiểm tay __ dòng, khớp __ | |
+| Đào data (viết script đếm, gợi ý nhãn) | Codex | Viết công thức lọc và tổng hợp log BTC | Chạy lại phép đếm, đối chiếu mẫu số và 5 mã lượt | Khôi |
 | Rà câu hỏi phỏng vấn / khảo sát | | Chỉ rà câu dẫn dắt | | |
-| Viết câu thử (benchmark) | | | Mỗi câu thử có `source`; câu thử AI viết được ghi rõ | |
-| Sinh data `synthetic` (nếu có) | | | Seed __ · kiểm tay __ dòng | |
+| Viết câu thử (benchmark) | Codex | Soạn thêm tám tình huống B21–B28 để kiểm gợi ý, hỏi lại, giữ phạm vi | Ghi `tu_viet`, giữ nguyên B01–B12 và kiểm output mock | Nhóm Phoenix |
+| Sinh data `synthetic` (nếu có) | Codex | Soạn câu ôn CSV, gợi ý và câu áp dụng | Kiểm cấu trúc 5 mục và chạy CLI. Seed không áp dụng với bản soạn theo từng mục. | Khôi |
 | Chấm cột `pass` bằng LLM (nếu có) | | | Kiểm tra thủ công __ câu thử, khớp __/__ | |
-| Slide, văn bản | | | | |
+| Slide, văn bản | Codex | Soạn nháp Canvas và spec, đối chiếu phiên bản CP1–CP2 | Giữ đúng phạm vi từ CP1, đối chiếu bằng chứng log và rà chuẩn ở §7 | Nhóm Phoenix |
 
 **Không dùng AI để:** tạo người được phỏng vấn, trích dẫn, câu trả lời khảo sát; sửa kết quả các lượt đã chạy (`eval/run-*.csv`, `cost/simulate-*.csv`, `traces/`).

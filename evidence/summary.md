@@ -8,7 +8,7 @@
 | Nguồn | Đạt ngưỡng? | File |
 |---|---|---|
 | Đào data (x/N, %, cách đếm chạy lại được, ≥5 ví dụ) | Đã chạy lại, có số và 5 ví dụ. Cách đếm được ghi lại sau lần thăm dò CP1. | [evidence/data-mining.md](data-mining.md) |
-| Phỏng vấn (≥3 người ngoài nhóm, đúng người dùng) | ☐ Đã chuẩn bị câu hỏi, chưa có ghi chép. | [Mẫu phỏng vấn](interviews/TEMPLATE.md) |
+| Phỏng vấn (≥3 người ngoài nhóm, đúng người dùng) | ☐ Chưa dùng nguồn phỏng vấn trong bộ CP2. | [Mẫu phỏng vấn](interviews/TEMPLATE.md) |
 | Khảo sát (≥20 người ngoài nhóm, đúng người dùng) | ☐ Chưa triển khai. | `evidence/survey/` |
 
 ## 2. Số chính
@@ -47,4 +47,4 @@ Giả thuyết ở [evidence/hypothesis.md](hypothesis.md): **chưa đủ căn c
 
 | Vai | Giờ hẹn | Đã xong? |
 |---|---|---|
-| Học viên L3 ngoài nhóm đã tự ôn Day 03 | Chưa có giờ hẹn được ghi nhận trong repo | Chưa có ghi chép |
+| Học viên L3 ngoài nhóm đã tự ôn Day 03 | Chưa dùng lịch hẹn trong bộ CP2 | Chưa ghi nhận làm bằng chứng ở CP2 |

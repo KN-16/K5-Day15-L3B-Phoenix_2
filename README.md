@@ -1,7 +1,7 @@
 > Đây là khung repo nộp bài. Điền mọi chỗ `____`, giữ nguyên tên các mục. **Mục 0 xoá đi sau khi tạo repo xong.**
 > Giờ, mốc, luật, rubric: xem `README.md`, `02-guide.md`, `03-rubric.md` trong repo đề (bộ đề BTC phát).
 
-# [Phoenix] — [Tên lát cắt]
+# Phoenix_2 — Gợi ý sửa lỗi chọn workflow hay agent ở Day 03
 
 **Thành viên, lớp, track:** xem [TEAMS.md](TEAMS.md). **Điền TEAMS.md đúng format**: khi chấm và đánh giá, BTC quét file này để ghép điểm cho từng người.
 
@@ -44,7 +44,7 @@ Gõ `dir` (Windows) hoặc `ls` (macOS / Linux): thấy `run.py` và `README.md`
 
 - Windows: gõ `python` mà mở Microsoft Store hoặc báo không có lệnh → dùng `py`. Chưa có Python: cài từ python.org, **tick "Add python.exe to PATH"**, mở lại PowerShell.
 - macOS: báo `command not found: python` là bình thường → dùng `python3`.
-- `python run.py` in ra "[câu trả lời giả — chưa nối model] …" là khung chạy đúng. Nối model thật: [docs/connect-model.md](docs/connect-model.md).
+- Ở CP2, `python run.py` hiện câu ôn Day 03. Nhập lựa chọn kèm lý do để thấy gợi ý, câu hỏi làm rõ hoặc câu nhắc phạm vi, sau đó là dòng `model: fake`. Nối model thật ở CP3 theo [docs/connect-model.md](docs/connect-model.md).
 
 Trong README này lệnh viết là `python …`; máy nhóm cần `python3` hay `py` thì gõ thay.
 
@@ -105,7 +105,7 @@ python run.py
 
 | Thành phần | Thật / Giả | Ghi chú |
 |---|---|---|
-| Lời gọi AI ở quyết định trung tâm | **Giả** ở CP2 · **Thật** (bắt buộc từ CP3) | Model: ____ (OpenAI, nối ở CP3). Chế độ giả: nhánh `fake` trong `codebase/ai.py` trả cùng dạng JSON với model thật, chọn theo quy tắc từ khoá công khai ghi ở đầu file đó, token 0 |
+| Lời gọi AI ở quyết định trung tâm | **Giả** ở CP2 · **Thật** (bắt buộc từ CP3) | OpenAI dự kiến nối ở CP3, mã model sẽ ghi sau khi chạy. Nhánh `fake` trong `codebase/ai.py` trả cùng dạng JSON dự kiến của model thật, chọn bằng từ khóa và ghi token 0. |
 | Câu ôn, gợi ý, câu áp dụng mới | Nhóm tự soạn (`synthetic`) | `data/day03.json`, nguồn và giới hạn ở `data/DATA_CARD.md` |
 | Kiểm mã gợi ý, hỏi lại, từ chối | Thật | Code Python trong `codebase/agent.py` và `codebase/tools.py`, chạy giống nhau ở chế độ giả và thật |
 
@@ -113,7 +113,7 @@ python run.py
 
 2–3 dòng (bắt buộc): nhóm dùng công cụ AI nào để làm gì, người kiểm lại phần nào. Chi tiết: [docs/ai-usage.md](docs/ai-usage.md). Coding agent đọc [AGENTS.md](AGENTS.md).
 
-____
+Codex hỗ trợ soạn tình huống mock, viết phép đếm log, soạn thêm câu thử tự viết và rà tính nhất quán giữa bằng chứng, Canvas, spec và bộ câu thử. Chuẩn đánh giá ghi ở `spec.md` §7. Bản CP2 ghi nguồn `tu_viet` cho các tình huống soạn mới. [Khai báo chi tiết](docs/ai-usage.md)
 
 ## File mẫu — điền ở bước nào
 

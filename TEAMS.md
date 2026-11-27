@@ -11,10 +11,10 @@
 
 | STT | Họ và tên | Mã học viên | Vai trò | Phần việc chính |
 |---|---|---|---|---|
-| 1 | Lê Nguyễn Anh Khôi | 2A202603755 | Đội trưởng | Tổng hợp bằng chứng lỗi sai Day 03, tính impact và nộp checkpoint |
+| 1 | Lê Nguyễn Anh Khôi | 2A202603755 | Đội trưởng | Tổng hợp bằng chứng, soạn dữ liệu mock, tính impact và nộp checkpoint |
 | 2 | Đinh Phúc Diên | 2A202603876 | Thành viên | 	Xây luồng chọn gợi ý theo lời giải thích của học viên và tích hợp OpenAI |
-| 3 | Đặng Nhật Huy | 2A202603822 | Thành viên | 	Soạn rubric lỗi hiểu sai, xây bộ câu thử và chấm hai lượt đánh giá |
-| 4 | Lê Nguyễn Anh Nhân | 2A202603838 | Thành viên | 	Soạn dữ liệu bài học và câu áp dụng mới, viết Data Card và mô phỏng chi phí |
+| 3 | Đặng Nhật Huy | 2A202603822 | Thành viên | 	Xây bộ câu thử, metric và hồ sơ đánh giá |
+| 4 | Lê Nguyễn Anh Nhân | 2A202603838 | Thành viên | 	Tổng hợp spec và Canvas, phụ trách mô phỏng chi phí |
 
 **Quy tắc điền**
 - **Lớp:** `L3A` hoặc `L3B`. **Track:** một chữ `A` (EdTech), `B` (Y tế), `C` (Du lịch), `D` (Thương mại điện tử), `E` (Tài chính) hoặc `F` (Làn khác). **Link repo:** link GitHub công khai của nhóm.
