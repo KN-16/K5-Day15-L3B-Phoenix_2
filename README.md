@@ -127,7 +127,8 @@ Gọi API lỗi (sai key, hết lượt, mất mạng, hết thời gian chờ) 
 
 2–3 dòng (bắt buộc): nhóm dùng công cụ AI nào để làm gì, người kiểm lại phần nào. Chi tiết: [docs/ai-usage.md](docs/ai-usage.md). Coding agent đọc [AGENTS.md](AGENTS.md).
 
-Codex hỗ trợ soạn tình huống mock, viết phép đếm log, soạn thêm câu thử tự viết và rà tính nhất quán giữa bằng chứng, Canvas, spec và bộ câu thử. Chuẩn đánh giá ghi ở `spec.md` §7. Bản CP2 ghi nguồn `tu_viet` cho các tình huống soạn mới. [Khai báo chi tiết](docs/ai-usage.md)
+Codex hỗ trợ soạn dữ liệu mock, viết phép đếm log, soạn thêm câu thử và rà hồ sơ. Claude Code hỗ trợ Diên triển khai và kiểm thử luồng nối OpenAI.
+Nhân phụ trách tích hợp CP3 và đánh giá Lượt 1. Codex hỗ trợ đối chiếu phản hồi, ghi điểm theo tiêu chí và kiểm lại kết quả bằng `score`. [Khai báo chi tiết](docs/ai-usage.md)
 
 ## File mẫu — điền ở bước nào
 

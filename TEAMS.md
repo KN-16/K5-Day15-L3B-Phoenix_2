@@ -4,7 +4,7 @@
 > Giữ nguyên tên file `TEAMS.md` ở thư mục gốc repo, giữ nguyên các dòng `- Tên nhóm:` … và tiêu đề cột của bảng. Chỉ thay chỗ `____`.
 > Kiểm bằng `python run.py check`: phần "Kiểm TEAMS.md" không báo gì là đúng format.
 
-- Tên nhóm: Phoenix
+- Tên nhóm: Phoenix_2
 - Lớp: L3B
 - Track: A
 - Link repo: https://github.com/KN-16/K5-Day15-L3B-Phoenix_2
@@ -13,8 +13,8 @@
 |---|---|---|---|---|
 | 1 | Lê Nguyễn Anh Khôi | 2A202603755 | Đội trưởng | Tổng hợp bằng chứng, soạn dữ liệu mock, tính impact và nộp checkpoint |
 | 2 | Đinh Phúc Diên | 2A202603876 | Thành viên | 	Xây luồng chọn gợi ý theo lời giải thích của học viên và tích hợp OpenAI |
-| 3 | Đặng Nhật Huy | 2A202603822 | Thành viên | 	Xây bộ câu thử, metric và hồ sơ đánh giá |
-| 4 | Lê Nguyễn Anh Nhân | 2A202603838 | Thành viên | 	Tổng hợp spec và Canvas, phụ trách mô phỏng chi phí |
+| 3 | Đặng Nhật Huy | 2A202603822 | Thành viên | Xây bộ câu thử và metric, hướng dẫn chấm, phân tích log Day 03 |
+| 4 | Lê Nguyễn Anh Nhân | 2A202603838 | Thành viên | Tổng hợp spec và Canvas, tích hợp CP3, phụ trách đánh giá Lượt 1 và chuẩn bị demo |
 
 **Quy tắc điền**
 - **Lớp:** `L3A` hoặc `L3B`. **Track:** một chữ `A` (EdTech), `B` (Y tế), `C` (Du lịch), `D` (Thương mại điện tử), `E` (Tài chính) hoặc `F` (Làn khác). **Link repo:** link GitHub công khai của nhóm.

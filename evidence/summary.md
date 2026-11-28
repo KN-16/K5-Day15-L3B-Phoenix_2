@@ -8,8 +8,8 @@
 | Nguồn | Đạt ngưỡng? | File |
 |---|---|---|
 | Đào data (x/N, %, cách đếm chạy lại được, ≥5 ví dụ) | Phép đếm ban đầu là thăm dò CP1. CP3 có thêm phép kiểm ghi quy tắc trước, chạy được lại và có 5 ví dụ từ log đã ẩn danh. | [evidence/data-mining.md](data-mining.md) |
-| Phỏng vấn (≥3 người ngoài nhóm, đúng người dùng) | ☐ Chưa dùng nguồn phỏng vấn trong bộ CP2. | [Mẫu phỏng vấn](interviews/TEMPLATE.md) |
-| Khảo sát (≥20 người ngoài nhóm, đúng người dùng) | ☐ Chưa triển khai. | `evidence/survey/` |
+| Phỏng vấn (≥3 người ngoài nhóm, đúng người dùng) | Không dùng cho CP1–CP3. | [Mẫu phỏng vấn](interviews/TEMPLATE.md) |
+| Khảo sát (≥20 người ngoài nhóm, đúng người dùng) | Không dùng cho CP1–CP3. | `evidence/survey/` |
 
 ## 2. Số chính
 
@@ -23,9 +23,7 @@ Phỏng vấn nhiều vai thì đếm theo từng vai, không cộng chung.
 
 | | Vai | Gặp pain? | Số lần / 1 tháng qua | Lần gần nhất mất | Đang xoay xở bằng |
 |---|---|---|---|---|---|
-| P1 | | | | | |
-| P2 | | | | | |
-| P3 | | | | | |
+| Không áp dụng | — | — | — | — | — |
 
 ## 3. ≥5 trích dẫn hoặc ví dụ nguyên văn (có nguồn, bỏ tên)
 
