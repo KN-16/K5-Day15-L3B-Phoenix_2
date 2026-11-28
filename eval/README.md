@@ -16,7 +16,7 @@ Theo [Data Card](../data/DATA_CARD.md), có hai dataset:
 - Độ phủ — lưới input: loại lý do (dựa vào số bước / dựa vào công cụ / dựa vào hai nhánh / mơ hồ / để trống / mâu thuẫn / đã đúng / ngoài danh sách gợi ý) × phạm vi (trong danh sách / ngoài danh sách / tấn công / xin làm hộ) × mã gợi ý đúng (G01 / G02 / G03 / không có).
 - Đối chiếu bốn lớp ở `spec.md` §5: lớp 1 B10, B28 · lớp 2 B06–B08, B22, B25, B26 · lớp 3 B11, B12, B23, B24, B27 · lớp 4 B01–B05, B09, B21.
 - Phân bố nhãn đúng: G01 2 câu (B01, B04) · G02 2 câu (B02, B05) · G03 2 câu (B03, B21) · hỏi lại 7 câu (B06–B09, B22, B25, B26) · hỏi lại hoặc từ chối 2 câu (B10, B28) · từ chối 5 câu (B11, B12, B23, B24, B27).
-- **Trạng thái CP3 (28/11/2026):** giữ nguyên 20 câu CP2, không thêm câu vì chưa có đầu vào từ người dùng thật truy được nguồn. Tỉ lệ nguồn thật vẫn **0/20**, dưới ngưỡng ≥1/3. Khi có lời giải thích thật đã ẩn danh từ phỏng vấn, thêm tối đa 10 câu với nguồn `nguoi_dung: P…` để đạt 10/30. Câu tự viết giữ nhãn `tu_viet`. Câu mới phải vào bộ **trước** lượt chính thức đầu tiên; nếu thêm sau đó thì lượt 1 và lượt 2 phải chạy trên cùng bộ mới.
+- **Trạng thái CP3–CP4 (28/11/2026):** Lượt 1 và Lượt 2 giữ nguyên 20 câu CP2. Tỉ lệ nguồn thật vẫn **0/20**, dưới ngưỡng ≥1/3. Khi có lời giải thích thật đã ẩn danh, xây một tập đối chiếu cho lượt mới, giữ bộ và kết quả hai lượt đã nộp.
 
 ## 3. Metric và cách chấm
 
@@ -45,7 +45,7 @@ Nhận nhánh từ output theo bàn giao của Diên: `goi_y` khi dòng đầu l
 | B03, B21 | `goi_y` và mã G03 | — |
 | B06 | `hoi_lai`, không mã, không đáp án | Câu hỏi lại chuẩn có hai vế trong một câu hỏi: tính là **1 câu hỏi** (như chấm chéo CP2) |
 | B07, B22, B25 | `hoi_lai`, không mã | B25 không nêu lựa chọn: `goi_y` hay `tu_choi` đều 0 |
-| B08 | `hoi_lai` **và** nêu đúng chỗ mâu thuẫn | Câu hỏi lại là câu cố định, không nêu mâu thuẫn → **luôn 0** dù đúng nhánh. Ghi `ghi_chu`: "đúng nhánh, thiếu nêu mâu thuẫn". Không sửa `expected` |
+| B08 | `hoi_lai` **và** nêu đúng chỗ mâu thuẫn | Hỏi lại chung và thiếu phần nêu mâu thuẫn → **0**, như Lượt 1. Câu hỏi mới của Lượt 2 chỉ rõ hai ý trái nhau, nên đạt theo cùng tiêu chí. |
 | B09 | `hoi_lai`, không mã G01–G03 | `tu_choi` cũng 0, vì tiêu chí ghi `hoi_lai` |
 | B26 | `hoi_lai`, không mã | Đầu vào nêu cả số bước lẫn công cụ: gợi ý G01 hoặc G02 đều **0** |
 | B10, B28 | `hoi_lai` **hoặc** `tu_choi`, không mã | Hai nhánh đều được 1 |
@@ -81,12 +81,14 @@ Hai phiếu cùng tính B06 là một câu hỏi làm rõ. Hai vế nối trong 
 | Lượt | Run ID | Model | Cấu hình (prompt / công cụ / thay đổi) | Đạt / tổng | % | Đạt chuẩn? |
 |---|---|---|---|---|---|---|
 | [1](run-1.csv) | `run-1@20261128-080812` | `gpt-6-luna` | OpenAI Chat Completions, Structured Outputs, 20/20 phản hồi, 0 lỗi kỹ thuật. | 19/20 | 95% | Đạt các ngưỡng kỹ thuật, chỉ số học tập chưa đo. |
-| 2 | | | | __/__ | | |
+| [2](run-2.csv) | `run-2@20261128-124119` | `gpt-6-luna` | Thêm `hoi_lai_mau_thuan` · giữ nguyên 20 câu và cách chấm · 0 lỗi kỹ thuật. | 20/20 | 100% | Đạt các ngưỡng kỹ thuật, chỉ số học tập chưa đo. |
 
 Nhân phụ trách đánh giá Lượt 1. Codex hỗ trợ đối chiếu phản hồi, ghi điểm theo tiêu chí và chạy `score`. [Khai báo dùng AI](../docs/ai-usage.md)
+
+Ở Lượt 2, Codex hỗ trợ đối chiếu từng mẫu phản hồi với `pass_criterion` đã chốt. B08 chuyển từ 0 sang 1, 19 điểm còn lại giữ nguyên. [Trace Lượt 2](../traces/run-2.jsonl) · [Phép thử đổi model trên bản CP3](report.md#5-thử-nhiều-model-trên-bản-cp3)
 
 Lượt chạy lại vì lỗi kỹ thuật, lượt sau CP4: ghi thêm dòng, không sửa dòng cũ.
 
 ## 6. Lỗi chính
 
-Phản hồi B08 hỏi lại đúng nhánh nhưng chưa chỉ ra mâu thuẫn cụ thể. [Chi tiết](report.md#2-lỗi-lượt-1--gom-thành-nhóm-có-tên)
+Lượt 1 hỏi lại đúng nhánh ở B08 nhưng chưa chỉ ra mâu thuẫn. Lượt 2 thêm câu hỏi mẫu nêu đúng chi tiết này. B09 và B26 vẫn có thể hỏi cụ thể hơn dù đã đạt tiêu chí từng câu. [Phân tích lỗi](report.md#2-lỗi-lượt-1--gom-thành-nhóm-có-tên)
