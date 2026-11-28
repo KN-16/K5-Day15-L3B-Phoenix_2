@@ -101,3 +101,67 @@ Ví dụ nhóm sai không xem lại (mã lượt, `lan_thu = 1`, `was_correct = 
 **Đọc kết quả:** ở câu workflow/agent, 9/12 học viên sai đã thấy đáp án rồi không quay lại bài hay hỏi trợ giảng về Day 03, dù phần lớn vẫn hoạt động nhiều trên trang trong 24 giờ sau. Mở rộng ra mọi câu Day 03, tỉ lệ là gần một nửa (10/22), và nhóm sai với nhóm đúng xem lại với tỉ lệ gần nhau (12/22 so với 13/23), nên **không kết luận** được người sai xem lại ít hơn người đúng nói chung.
 
 **Giới hạn:** n nhỏ; chỉ thấy hành vi, không thấy lý do (có thể đã hiểu nhờ đáp án, vội, hoặc không biết xem lại chỗ nào); "mở lại bài" không phân biệt xem lại có chủ đích hay học tiếp; câu hỏi `Day03` không chắc về đúng câu này.
+
+## 7. Khôi kiểm lại mốc nộp bài và cửa sổ 24 giờ
+
+Ngày 28/11/2026, Khôi ghi quy tắc trước khi chạy phép kiểm bổ sung. Codex hỗ trợ viết và chạy lại công thức. Phép kiểm này nối `answers.id` với `events.ref_id` và cùng `hv` để lấy thời điểm `answer_submitted` sớm nhất theo `occurred_at`. Mẫu gồm học viên sai lần đầu ở mục đã lọc, có mốc nộp ghép được và đủ 24 giờ trước bản ghi cuối của `events.csv`. Mỗi học viên được tính một lần. Sự kiện mở bài hoặc video phải thuộc Day 03 và xảy ra sau mốc nộp, tối đa 24 giờ.
+
+**Kết quả:** 12/12 lượt sai ghép được mốc nộp và cả 12 học viên có đủ cửa sổ. Có **2/12 (16,7%)** học viên có sự kiện mở bài hoặc video Day 03 trong 24 giờ. Với **10/12 (83,3%)** còn lại, log không ghi nhận hai loại sự kiện này trong khoảng đo.
+
+| Mã lượt sai | `lan_thu` | `was_correct` | Có sự kiện mở Day 03 trong 24 giờ |
+|---|---|---|---|
+| `A00117` | `1` | `False` | Có |
+| `A00653` | `1` | `False` | Không ghi nhận |
+| `A00945` | `1` | `False` | Không ghi nhận |
+| `A00948` | `1` | `False` | Có |
+| `A00950` | `1` | `False` | Không ghi nhận |
+
+Chạy từ gốc repo Phoenix trong PowerShell, với repo BTC đặt cùng cấp. Lệnh chỉ in số tổng hợp và mã lượt đã ẩn danh.
+
+```powershell
+$dataPath = '../K5-L3-Day15-AI-Product-Hackathon/data/preclass'
+$lesson = 'program-day03:chatbot-to-agentic-agent'
+$wrong = @(Import-Csv "$dataPath/answers.csv" -Encoding UTF8 | Where-Object {
+    $_.lesson_id -eq $lesson -and $_.kc_code -eq 'agentic_fit_scoring_decision' -and
+    $_.nguon -eq 'pre_post_post' -and $_.lan_thu -eq '1' -and $_.was_correct -eq 'False'
+})
+$wrongByRef = @{}
+foreach ($row in $wrong) { $wrongByRef[$row.id] = $row.hv }
+$submittedByRef = @{}
+$openedByLearner = @{}
+$end = [DateTimeOffset]::MinValue
+foreach ($event in (Import-Csv "$dataPath/events.csv" -Encoding UTF8)) {
+    if (-not $event.occurred_at) { continue }
+    $time = [DateTimeOffset]::Parse($event.occurred_at)
+    if ($time -gt $end) { $end = $time }
+    $ref = $event.ref_id
+    $learner = $event.hv
+    if ($event.type -eq 'answer_submitted' -and $wrongByRef.ContainsKey($ref) -and $wrongByRef[$ref] -eq $learner) {
+        if (-not $submittedByRef.ContainsKey($ref) -or $time -lt $submittedByRef[$ref]) {
+            $submittedByRef[$ref] = $time
+        }
+    }
+    if ($event.lesson_id -eq $lesson -and $event.type -in @('lecture_opened', 'video_opened')) {
+        if (-not $openedByLearner.ContainsKey($learner)) {
+            $openedByLearner[$learner] = [Collections.Generic.List[DateTimeOffset]]::new()
+        }
+        $openedByLearner[$learner].Add($time)
+    }
+}
+$sample = @(foreach ($group in ($wrong | Group-Object hv)) {
+    $first = $group.Group | Where-Object { $submittedByRef.ContainsKey($_.id) } |
+        Sort-Object @{Expression = {$submittedByRef[$_.id]}}, id | Select-Object -First 1
+    if ($null -eq $first) { continue }
+    $start = $submittedByRef[$first.id]
+    $limit = $start.AddHours(24)
+    if ($limit -gt $end) { continue }
+    $opened = @($openedByLearner[$first.hv] | Where-Object { $_ -gt $start -and $_ -le $limit }).Count -gt 0
+    [pscustomobject]@{ id = $first.id; MoLai24h = $opened }
+})
+if ($sample.Count -eq 0) { throw 'Không có học viên đủ cửa sổ quan sát.' }
+$count = @($sample | Where-Object MoLai24h).Count
+[pscustomobject]@{ GhepDuoc = $submittedByRef.Count; LuotSai = $wrong.Count; MoLai = $count; Mau = $sample.Count; PhanTram = [math]::Round(100 * $count / $sample.Count, 2) }
+$sample | Sort-Object id | Select-Object -First 5
+```
+
+Mục 6 dùng `answers.created_at` và chỉ số **9/12** kết hợp mở bài hoặc hỏi trợ giảng cho tới cuối log. Mục 7 chỉ đếm hai loại mở bài trong 24 giờ tính từ sự kiện nộp. Hai chỉ số bổ sung góc nhìn về cùng nguồn log BTC. Dữ liệu chưa cho biết học viên mở lại để sửa đúng câu nào, lý do họ chọn sai hay thời gian tốn để ôn lại. Chạy mục 7 không cần cài `pandas`.
