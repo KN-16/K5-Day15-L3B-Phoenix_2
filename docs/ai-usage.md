@@ -15,5 +15,6 @@ README của nhóm có mục "Dùng AI vào việc gì" (2–3 dòng, bắt bu�
 | Chấm cột `pass` bằng LLM (nếu có) | Codex | Hỗ trợ đối chiếu 20 phản hồi với `pass_criterion`, ghi điểm theo ủy quyền của Nhân và kiểm lại bằng `run.py score` | Nhân phụ trách kết quả đánh giá Lượt 1 và giao Codex đối chiếu theo tiêu chí đã chốt ở CP2 | Nhân |
 | Slide, văn bản | Codex | Hỗ trợ soạn Canvas và spec, đối chiếu phiên bản CP1–CP2 | Giữ đúng phạm vi từ CP1, đối chiếu bằng chứng log và rà chuẩn ở §7 | Nhóm Phoenix_2 |
 | Tích hợp CP3 | Codex | Hỗ trợ kiểm local, chạy lệnh đánh giá, đối chiếu hồ sơ và dựng video từ phản hồi CLI thật | Nhân phụ trách tích hợp CP3, đánh giá Lượt 1 và chuẩn bị demo | Nhân |
+| Tích hợp CP4 | Codex | Hỗ trợ xây nhánh hỏi rõ mâu thuẫn, chạy Luna trên bộ câu thử đã khóa, đối chiếu cột `pass`, chạy mô phỏng và soạn slide từ dữ liệu đã lưu | Hồ sơ đi kèm diff code, CSV và trace để nhóm đối chiếu. Phép chạy giữ nguyên chuẩn CP2 và kết quả CP3. | Nhân phụ trách tổng hợp |
 
 **Không dùng AI để:** tạo người được phỏng vấn, trích dẫn, câu trả lời khảo sát; sửa kết quả các lượt đã chạy (`eval/run-*.csv`, `cost/simulate-*.csv`, `traces/`).

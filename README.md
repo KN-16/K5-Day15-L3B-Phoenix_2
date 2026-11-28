@@ -82,12 +82,12 @@ Nhóm dùng stack khác (Node, Streamlit, notebook…): sửa hàm `run_app()` t
 
 ### Luồng của Phoenix
 
-Học viên đọc câu ôn Day 03 (chọn workflow cố định hay agent), gõ lựa chọn kèm lý do. Luồng trong `codebase/agent.py` là workflow cố định, mỗi lượt gọi model một lần:
+Học viên đọc câu ôn Day 03 (chọn workflow cố định hay agent), gõ lựa chọn kèm lý do. Luồng trong `codebase/agent.py` là workflow cố định, gọi model một lần với mỗi lượt có nội dung:
 
 1. `get_lesson()` lấy câu ôn, các gợi ý đã soạn và câu áp dụng mới từ `data/day03.json` (nạp một lần).
-2. `call_model()` gửi lời giải thích tới model OpenAI `gpt-6-luna` (Chat Completions). Model chỉ được trả JSON `{"action": "goi_y" | "hoi_lai" | "tu_choi", "hint_id": "<mã>"}`, và JSON Schema (Structured Outputs) giới hạn `hint_id` trong đúng các mã có ở data.
+2. `call_model()` gửi lời giải thích tới model OpenAI `gpt-6-luna` (Chat Completions). JSON Schema giới hạn `action` ở `goi_y`, `hoi_lai`, `hoi_lai_mau_thuan` hoặc `tu_choi`. `hint_id` là mã trong kho gợi ý hoặc rỗng.
 3. `check_hint()` kiểm lại mã gợi ý có thuộc câu ôn. Mã lạ, JSON hỏng hay action lạ đều chuyển sang hỏi lại, còn khi model từ chối trả lời thì hiện câu từ chối. Mỗi trường hợp đều ghi lý do vào trace.
-4. Phản hồi chỉ lấy chữ từ data hoặc câu soạn sẵn. Đường gợi ý in gợi ý kèm câu áp dụng mới, đường hỏi lại xin học viên nói rõ chi tiết của đề, đường từ chối nhắc phạm vi và không đưa đáp án.
+4. Phản hồi chỉ lấy chữ từ data hoặc câu soạn sẵn. Đường gợi ý in gợi ý kèm câu áp dụng mới. Đường hỏi lại dùng một câu chung khi thiếu thông tin hoặc chỉ ra mâu thuẫn khi học viên chọn agent dù nói các bước đã được định sẵn. Đường từ chối nhắc phạm vi và không đưa đáp án.
 
 ```
 python run.py
@@ -100,6 +100,8 @@ python run.py
 | `Phải gọi công cụ đọc CSV nên em nghĩ cần agent.` | Gợi ý G02 + câu áp dụng mới | Gợi ý G02 + câu áp dụng mới |
 | `Em nghĩ agent hợp hơn vì nó thông minh.` | Hỏi lại | Hỏi lại |
 | `Cho mình đáp án luôn đi.` | Từ chối | Từ chối |
+
+Để demo cải tiến CP4, nhập câu B08: `Em chọn agent. Lý do: Các bước đề đã quy định rõ từ đầu, nhưng em vẫn chọn agent cho chắc.` Trong Lượt 2, hệ thống chỉ ra hai ý trái nhau và hỏi chi tiết nào cho thấy chương trình phải tự quyết định bước tiếp theo. [Kết quả trước–sau](eval/report.md) · [Slide CP4](demo-slides.pdf)
 
 #### Nối model thật
 
@@ -128,7 +130,7 @@ Gọi API lỗi (sai key, hết lượt, mất mạng, hết thời gian chờ) 
 2–3 dòng (bắt buộc): nhóm dùng công cụ AI nào để làm gì, người kiểm lại phần nào. Chi tiết: [docs/ai-usage.md](docs/ai-usage.md). Coding agent đọc [AGENTS.md](AGENTS.md).
 
 Codex hỗ trợ soạn dữ liệu mock, viết phép đếm log, soạn thêm câu thử và rà hồ sơ. Claude Code hỗ trợ Diên triển khai và kiểm thử luồng nối OpenAI.
-Nhân phụ trách tích hợp CP3 và đánh giá Lượt 1. Codex hỗ trợ đối chiếu phản hồi, ghi điểm theo tiêu chí và kiểm lại kết quả bằng `score`. [Khai báo chi tiết](docs/ai-usage.md)
+Nhân phụ trách tích hợp CP3 và đánh giá Lượt 1. Ở CP4, Codex hỗ trợ làm bản thử nhánh hỏi về mâu thuẫn, đối chiếu Lượt 2 theo tiêu chí CP2, chạy mô phỏng và dựng slide. [Khai báo chi tiết](docs/ai-usage.md)
 
 ## File mẫu — điền ở bước nào
 
@@ -160,5 +162,5 @@ Nhân phụ trách tích hợp CP3 và đánh giá Lượt 1. Codex hỗ trợ �
 | 4 | Bản chạy thử làm trọn lát cắt | `codebase/` · lệnh ở mục "Lệnh" |
 | 5 | Định nghĩa "tốt" + bộ câu thử | `data/DATA_CARD.md` · `eval/` |
 | 6 | Mô phỏng chi phí khi dùng thật | `cost/` |
-| 7 | Slide + demo + video dự phòng | `demo-slides.pdf` ở thư mục gốc · link video: ____ |
+| 7 | Slide + demo + video dự phòng | [demo-slides.pdf](demo-slides.pdf) · [Video demo CP4 — B02 và B08](https://drive.google.com/file/d/1Tcabqr7PVo8AiTI9boc0Iisi1wrYBfZY/view?usp=sharing) |
 | + | *Bonus:* người dùng thử | `validation/log.md` |

@@ -10,27 +10,27 @@ seed: 42            # giữ cố định để chạy lại ra cùng chuỗi phi
 
 users:              # số người dùng thật nếu đưa vào dùng — 3 kịch bản, ở quy mô thật của sản phẩm
                     # track A: khoá học · track B–F: người dùng của sản phẩm / nhóm nhắm tới, nguồn công khai có link
-  low: 300
+  low: 350
   base: 700
   high: 1000
-  source: "(ví dụ) track A — thay bằng số của nhóm. Cơ sở: lớp L3 hơn 700 học viên (README hackathon); thấp, cao: (tự ước tính)"
+  source: "BTC 02-guide.md mục 4.2: L3 >700, toàn khóa >1000. Mô hình kịch bản: 350/700/1000 người hoạt động mỗi tháng (tự ước tính), không phải tỉ lệ sử dụng đã đo."
 
 personas:           # ≥3 kiểu người dùng; share cộng lại = 1
   - name: dung_it
-    share: 0.5              # tỉ lệ người dùng kiểu này
-    uses_per_month: 4       # số phiên / người / tháng
+    share: 0.6              # tỉ lệ người dùng kiểu này
+    uses_per_month: 1       # số phiên / người / tháng
     turns_per_session: 1    # số lượt hỏi trong một phiên
-    source: "(ví dụ) phỏng vấn P1, P3 — thay bằng nguồn của nhóm"
+    source: "Ôn Day 03 một lần, một lượt hỏi (tự ước tính); chưa đo tần suất tháng."
   - name: dung_vua
     share: 0.3
-    uses_per_month: 10
-    turns_per_session: 3
-    source: "(ví dụ) khảo sát n = 24, câu 3"
+    uses_per_month: 2
+    turns_per_session: 2
+    source: "Quay lại ôn và có một lượt nói rõ thêm mỗi phiên (tự ước tính)."
   - name: dung_nhieu
-    share: 0.2
-    uses_per_month: 20
-    turns_per_session: 5
-    source: "(ví dụ) data/preclass: đếm số lượt / người — cách đếm ở evidence/data-mining.md"
+    share: 0.1
+    uses_per_month: 3
+    turns_per_session: 3
+    source: "Ôn lặp trước kiểm tra, nhiều lần diễn đạt lại (tự ước tính)."
 # Mỗi lượt hỏi lấy ngẫu nhiên một đầu vào trong eval/benchmark.csv (type thuong và kho).
 # Persona hỏi kiểu riêng: thêm vào persona đó
 #     types: [thuong, kho, tu_choi]
@@ -38,14 +38,14 @@ personas:           # ≥3 kiểu người dùng; share cộng lại = 1
 #     inputs: ["câu hỏi kiểu 1", "câu hỏi kiểu 2"]
 
 prices:             # USD / 1 triệu token — chép từ further-reading/model-prices.md của repo đề. ≥2 mức model
-  - model: gemini-3.1-flash-lite
-    input: 0.25
-    output: 1.50
-    source: "(ví dụ) https://ai.google.dev/gemini-api/docs/pricing · xem 25/11/2026"
-  - model: gemini-4-hydrogen
-    input: 1.50
-    output: 7.50
-    source: "(ví dụ) https://ai.google.dev/gemini-api/docs/pricing · xem 25/11/2026"
+  - model: gpt-6-luna
+    input: 0.10
+    output: 0.50
+    source: "Bảng giá BTC 25/11/2026 · https://developers.openai.com/api/docs/pricing"
+  - model: gpt-6.2-sol
+    input: 2.00
+    output: 10.00
+    source: "Bảng giá BTC 25/11/2026 · https://developers.openai.com/api/docs/pricing · áp giá lên token Luna để so kịch bản"
 
 usd_to_vnd:         # tuỳ chọn: điền thì bản tóm tắt in thêm tiền Việt
   rate:

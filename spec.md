@@ -45,6 +45,7 @@ Data BTC cấp đã dùng (nếu có — không commit nguyên file): `answers.c
       B --> C["call_model · OpenAI gpt-6-luna chọn action và hint_id theo JSON Schema"]
       C --> D{"Kiểm action và mã gợi ý"}
       D -->|"goi_y và mã hợp lệ"| E["Hiện gợi ý và câu áp dụng mới"]
+      D -->|"hoi_lai_mau_thuan và hint_id rỗng"| H["Chỉ ra mâu thuẫn và hỏi một câu"]
       D -->|"hoi_lai hoặc action hoặc mã không hợp lệ"| F["Hỏi một câu để làm rõ"]
       D -->|"tu_choi hoặc model từ chối"| G["Nhắc phạm vi và mời quay lại câu ôn"]
   ```
@@ -69,6 +70,7 @@ Data BTC cấp đã dùng (nếu có — không commit nguyên file): `answers.c
   | G11 — giải thích gắn với việc làm tiếp | Gợi ý G01–G03 nêu chi tiết cần xem lại, sau đó CLI hiện câu áp dụng. Kiểm bằng B01–B05, B21. |
 
 - Phần nào còn giả: câu ôn về CSV và các gợi ý trong `data/day03.json` là `synthetic`. Khung CP2 dùng mock từ khóa. Bản CP3 gọi `gpt-6-luna` qua OpenAI Chat Completions ở bước chọn phản hồi, dùng Structured Outputs giới hạn nhánh và mã, rồi Python kiểm mã lần nữa. API từ chối thì dùng câu từ chối cố định. Lỗi kết nối hoặc phản hồi thiếu dữ liệu ghi ở `error` và được che key. [Cách chạy](README.md#luồng-của-phoenix) · [Data Card](data/DATA_CARD.md)
+- CP4 thêm hành động `hoi_lai_mau_thuan` trong cùng lần gọi `gpt-6-luna`. Khi học viên chọn agent nhưng lý giải rằng cách xử lý đã định sẵn, Python dùng câu mẫu chỉ ra hai ý trái nhau và hỏi về quyền tự chọn bước tiếp theo. Lý do chưa rõ vẫn dùng câu hỏi chung. [Thay đổi và phép đo](eval/report.md#3-một-lần-cải-tiến)
 
 ## §5. Chỗ khó — 4 lớp + ≥6 kịch bản + 2 tấn công *(guide 2.3)*
 
@@ -99,14 +101,14 @@ Data BTC cấp đã dùng (nếu có — không commit nguyên file): `answers.c
 - CP2: chạy mock để kiểm luồng, Diên và Nhân chấm cùng 5 phản hồi và khớp 5/5 quyết định. CP3: [Lượt 1](eval/run-1.csv) trên `gpt-6-luna`, mã `run-1@20261128-080812`, đạt **19/20 (95%)** và có 0 lỗi kỹ thuật. Các ngưỡng kỹ thuật đã đạt. Chỉ số học tập với người thử ngoài nhóm chưa đo, nên chưa kết luận đạt toàn bộ chuẩn. [Hồ sơ đánh giá](eval/README.md#5-đã-chạy-gì) · [Báo cáo](eval/report.md)
 
 ## §8. Chi phí khi dùng thật *(guide 4.2)*
-- Persona + giá: `cost/personas.yaml` · lượt mô phỏng: `cost/simulate-__.csv` (__ phiên)
-- Chi phí / task thành công: __ (model __) · __ (model __)
-- Chi phí / tháng ở quy mô thật: thấp __ · cơ sở __ · cao __ → chi tiết `cost/cost-estimate.md`
-- So với impact / người / tháng (§2): đáng làm không, vì sao:
+- [Persona và giá](cost/personas.yaml) · [simulate-1@20261128-124424](cost/simulate-1.csv) · 50 phiên, seed 42, 70 lượt gọi Luna, 0 phiên lỗi. Tỷ lệ dùng để tính chi phí/task là 20/20 từ [Lượt 2](eval/run-2.csv), chạy cùng model.
+- Chi phí/task thành công là **0,00012 USD** với `gpt-6-luna`. Áp đơn giá `gpt-6.2-sol` lên cùng token và tỷ lệ của Luna cho kịch bản **0,0024 USD/task**. [Bảng từ runner](cost/simulate-1-summary.md)
+- Chi phí Luna mỗi tháng ước tính **0,0803 USD** ở mức 350, **0,1605 USD** ở mức 700 và **0,2293 USD** ở mức 1.000 người hoạt động. Số người hoạt động và tần suất là giả định. [Báo cáo chi phí](cost/cost-estimate.md)
+- Chi phí model ở mức cơ sở khoảng **0,00023 USD/người/tháng**. So với cơ hội **5 phút/người/tháng** giả định ở §2, đáng thử với một nhóm nhỏ để đo thời gian và khả năng áp dụng thực tế trước khi mở rộng.
 
 ## §9. Rủi ro & an toàn
 - Dữ liệu gửi đi: câu ôn, điều kiện chọn gợi ý và lời giải thích được nhập. Log BTC chỉ dùng để tổng hợp bằng chứng tại máy. Benchmark CP3 dùng tình huống tự viết.
-- Phạm vi model: chọn nhánh và mã, còn phản hồi hiển thị lấy từ dữ liệu hoặc câu mẫu. Việc chấm điểm LMS và làm hộ bài ở ngoài phạm vi.
+- Phạm vi model: chọn nhánh và mã, còn phản hồi hiển thị lấy từ dữ liệu hoặc câu mẫu. Nhánh hỏi về mâu thuẫn chỉ hiện mẫu khi mã gợi ý rỗng. Việc chấm điểm LMS và làm hộ bài ở ngoài phạm vi.
 - Gợi ý lệch có thể khiến học viên củng cố hiểu nhầm. Nhóm kiểm mã bằng Python và chấm mức phù hợp của gợi ý theo từng câu.
 
 ## §10. Phân công & changelog
@@ -121,6 +123,7 @@ Data BTC cấp đã dùng (nếu có — không commit nguyên file): `answers.c
 | 27/11/2026 | Diên nối `gpt-6-luna` với Structured Outputs và che key trong lỗi. | Dùng AI thật ở bước chọn phản hồi và giữ cách chặn ở §4. |
 | 28/11/2026 | Huy rà benchmark, cách chấm và phép đếm; Khôi đối chiếu mốc nộp bài và cửa sổ 24 giờ. | Giải thích nguồn, mẫu số và giới hạn ở `evidence/summary.md`. |
 | 28/11/2026 | Nhân tích hợp hồ sơ CP3 và phụ trách đánh giá Lượt 1 trên bản đã merge. | Đối chiếu kết quả lượt đầu với tiêu chí CP2. |
+| 28/11/2026 | CP4 thêm nhánh hỏi rõ mâu thuẫn, chạy Lượt 2 cùng Luna và mô phỏng 50 phiên. | B08 hỏi lại chung ở Lượt 1. Lượt 2 tăng từ 19/20 lên 20/20. [Báo cáo](eval/report.md) · [Chi phí](cost/cost-estimate.md) · [Slide](demo-slides.pdf) |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
