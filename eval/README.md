@@ -80,11 +80,13 @@ Hai phiếu cùng tính B06 là một câu hỏi làm rõ. Hai vế nối trong 
 
 | Lượt | Run ID | Model | Cấu hình (prompt / công cụ / thay đổi) | Đạt / tổng | % | Đạt chuẩn? |
 |---|---|---|---|---|---|---|
-| 1 | | | | __/__ | | |
+| [1](run-1.csv) | `run-1@20261128-080812` | `gpt-6-luna` | OpenAI Chat Completions, Structured Outputs, 20/20 phản hồi, 0 lỗi kỹ thuật. | 19/20 | 95% | Đạt các ngưỡng kỹ thuật, chỉ số học tập chưa đo. |
 | 2 | | | | __/__ | | |
+
+Nhân phụ trách đánh giá Lượt 1. Codex hỗ trợ đối chiếu phản hồi, ghi điểm theo tiêu chí và chạy `score`. [Khai báo dùng AI](../docs/ai-usage.md)
 
 Lượt chạy lại vì lỗi kỹ thuật, lượt sau CP4: ghi thêm dòng, không sửa dòng cũ.
 
 ## 6. Lỗi chính
 
-Tóm 2–3 dòng từ `eval/report.md`: nhóm lỗi lớn nhất · đã sửa gì · còn lại gì.
+Phản hồi B08 hỏi lại đúng nhánh nhưng chưa chỉ ra mâu thuẫn cụ thể. [Chi tiết](report.md#2-lỗi-lượt-1--gom-thành-nhóm-có-tên)

@@ -8,26 +8,24 @@
 
 | Lượt | Run ID | Đạt / tổng | % | thuong | kho | tu_choi | So với chuẩn "đạt" |
 |---|---|---|---|---|---|---|---|
-| 1 | | __/__ | | __/__ | __/__ | __/__ | đạt / chưa |
+| 1 | `run-1@20261128-080812` | 19/20 | 95% | 6/6 | 8/9 | 5/5 | Đạt các ngưỡng kỹ thuật, chỉ số học tập chưa đo. |
 | 2 | | __/__ | | __/__ | __/__ | __/__ | đạt / chưa |
 
 Kết quả từng câu: `eval/run-1.csv`, `eval/run-2.csv`. Trace: `traces/run-1.jsonl`, `traces/run-2.jsonl`.
+
+- Lượt 1 dùng `gpt-6-luna`, ghi token từ API ở đủ 20 câu và có 0 lỗi kỹ thuật. Đối chiếu phản hồi cho thấy 20/20 đúng nhánh, 6/6 câu thường đúng mã, 6/6 mã hiển thị hợp lệ và 7/7 ca giữ phạm vi đạt. Điểm tổng hợp dùng cột `pass` của CSV, còn chỉ số học tập dùng kết quả người thử ngoài nhóm.
 
 ## 2. Lỗi lượt 1 — gom thành nhóm có tên
 
 | Nhóm lỗi | Số câu | Câu |
 |---|---|---|
-| vd: bịa nguồn *(ví dụ)* | | |
-| vd: đoán khi thiếu thông tin *(ví dụ)* | | |
-| | | |
+| Hỏi lại thiếu chi tiết theo tình huống | 1 | B08 |
 
-**≥3 lỗi cụ thể:**
+**Lỗi cụ thể:** B08 thiếu chi tiết mà điều kiện chấm yêu cầu.
 
 | Câu | Input | Output | Vì sao sai |
 |---|---|---|---|
-| | | | |
-| | | | |
-| | | | |
+| B08 | Chọn agent dù lý do nói rằng đề đã quy định rõ các bước. | “Mình chưa rõ chi tiết nào trong đề khiến bạn chọn như vậy. Bạn chọn workflow cố định hay agent, và dựa vào chi tiết nào của đề?” | Nhánh hỏi lại đúng, nhưng không nêu mâu thuẫn giữa hai ý như `pass_criterion` yêu cầu. |
 
 ## 3. Một lần cải tiến
 
